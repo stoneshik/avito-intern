@@ -1,0 +1,11 @@
+server:
+    port: "${IS_SERVICE_PORT}"
+
+spring:
+    main:
+        banner-mode: "off"
+    datasource:
+        url: "${ORDER_SERVICE_BD_URL}"
+        username: "${ORDER_SERVICE_BD_USERNAME}"
+        password: "${ORDER_SERVICE_BD_PASSWORD}"
+        driver-class-name: "org.postgresql.Driver"
