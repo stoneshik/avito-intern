@@ -43,69 +43,50 @@ abstract class SpringBootApplicationTest {
             VALUES ('backend');
             INSERT INTO teams (team_name)
             VALUES ('empty_team');
+            INSERT INTO teams (team_name)
+            VALUES ('frontend');
 
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u1',
                 'Alice',
+                'backend',
                 true
             );
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u2',
                 'Bob',
+                'backend',
                 true
             );
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u3',
                 'Max',
+                'backend',
                 true
             );
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u4',
                 'Ann',
+                'empty_team',
                 true
             );
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u5',
                 'John',
+                'empty_team',
                 false
             );
-            INSERT INTO users (user_id, username, is_active)
+            INSERT INTO users (user_id, username, team_name, is_active)
             VALUES (
                 'u6',
                 'John',
+                'frontend',
                 false
-            );
-
-            INSERT INTO team_members (user_id, team_name)
-            VALUES (
-                'u1',
-                'backend'
-            );
-            INSERT INTO team_members (user_id, team_name)
-            VALUES (
-                'u2',
-                'backend'
-            );
-            INSERT INTO team_members (user_id, team_name)
-            VALUES (
-                'u3',
-                'backend'
-            );
-
-            INSERT INTO team_members (user_id, team_name)
-            VALUES (
-                'u4',
-                'empty_team'
-            );
-            INSERT INTO team_members (user_id, team_name)
-            VALUES (
-                'u5',
-                'empty_team'
             );
 
             INSERT INTO pull_requests (pull_request_id, pull_request_name, author_id, status, created_at, merged_at)

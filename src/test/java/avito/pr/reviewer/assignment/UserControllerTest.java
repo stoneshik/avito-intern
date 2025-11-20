@@ -19,7 +19,6 @@ class UserControllerTest extends SpringBootApplicationTest {
         JdbcDatabaseDelegate containerDelegate = new JdbcDatabaseDelegate(postgresSqlContainer, "");
         ScriptUtils.executeDatabaseScript(containerDelegate, "",
             """
-            TRUNCATE team_members CASCADE;
             TRUNCATE assignment_reviewers CASCADE;
             TRUNCATE users CASCADE;
             TRUNCATE teams CASCADE;
