@@ -40,7 +40,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 {
                     "pull_request_id": "pr-1001",
                     "pull_request_name": "Add search",
-                    "author_id": "u1"
+                    "author_id": "u2"
                 }
                 """
             );
@@ -125,7 +125,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             .content(
                 """
                 {
-                    "pull_request_id": "pr-1001"
+                    "pull_request_id": "pr-1000"
                 }
                 """
             );
@@ -133,7 +133,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
         .andExpectAll(
             status().isCreated(),
             content().contentTypeCompatibleWith("application/json"),
-            jsonPath("$.pull_request_id").value("pr-1001"),
+            jsonPath("$.pull_request_id").value("pr-1000"),
             jsonPath("$.pull_request_name").value("Add search"),
             jsonPath("$.author_id").value("u1"),
             jsonPath("$.status").value("MERGED"),
@@ -178,7 +178,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             .content(
                 """
                 {
-                    "pull_request_id": "pr-1001",
+                    "pull_request_id": "pr-1000",
                     "old_reviewer_id": "u2"
                 }
                 """
@@ -189,13 +189,13 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
                 "pr": {
-                    "pull_request_id": "pr-1001",
-                    "pull_request_name": "Add search",
+                    "pull_request_id": "pr-1000",
+                    "pull_request_name": "Add integration tests",
                     "author_id": "u1",
                     "status": "OPEN",
-                    "assignment_reviewers": ["u2", "u4"]
+                    "assignment_reviewers": ["u1", "u3"]
                 },
-                "replaced_by": "u3"
+                "replaced_by": "u1"
             """)
         );
     }
@@ -210,8 +210,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 """
                 {
                     "pull_request_id": "pr-9999",
-                    "pull_request_name": "Add search",
-                    "author_id": "u1"
+                    "old_reviewer_id": "u1"
                 }
                 """
             );
@@ -238,8 +237,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 """
                 {
                     "pull_request_id": "pr-999",
-                    "pull_request_name": "Add docs",
-                    "author_id": "u1"
+                    "old_reviewer_id": "u2"
                 }
                 """
             );
@@ -265,9 +263,8 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             .content(
                 """
                 {
-                    "pull_request_id": "pr-9999",
-                    "pull_request_name": "Add search",
-                    "author_id": "u1"
+                    "pull_request_id": "pr-1000",
+                    "old_reviewer_id": "u1"
                 }
                 """
             );
@@ -294,8 +291,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 """
                 {
                     "pull_request_id": "pr-9999",
-                    "pull_request_name": "Add search",
-                    "author_id": "u1"
+                    "old_reviewer_id": "u4"
                 }
                 """
             );
@@ -305,7 +301,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
                 {
-                    "code": "NOT_CANDIDATE",
+                    "code": "NO_CANDIDATE",
                     "message": "no active replacement candidate in team"
                 }
             """)

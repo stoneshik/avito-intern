@@ -95,7 +95,7 @@ class UserControllerTest extends SpringBootApplicationTest {
             .content(
                 """
                 {
-                    "user_id": "u3",
+                    "user_id": "u100",
                     "is_active": false
                 }
                 """
@@ -127,8 +127,8 @@ class UserControllerTest extends SpringBootApplicationTest {
                 {
                     "user_id": "u2",
                     "pull_requests": [
-                        "pull_request_id": "",
-                        "pull_request_name": "",
+                        "pull_request_id": "pr-1000",
+                        "pull_request_name": "Add integration tests",
                         "author_id": "u1",
                         "status": "OPEN"
                     ]
@@ -142,14 +142,14 @@ class UserControllerTest extends SpringBootApplicationTest {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/users/getReview")
-            .param("user_id", "u3");
+            .param("user_id", "u6");
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
             status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
                 {
-                    "user_id": "u3",
+                    "user_id": "u6",
                     "pull_requests": []
                 }
             """)

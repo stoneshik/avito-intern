@@ -23,11 +23,11 @@ CREATE TABLE team_members (
 CREATE TYPE status_type AS ENUM ('OPEN', 'MERGED');
 CREATE TABLE pull_requests (
     pull_request_id varchar(100) PRIMARY KEY,
-    pull_request_name varchar(100) NOT NULL UNIQUE,
+    pull_request_name varchar(100) NOT NULL,
     author_id varchar(100) NOT NULL,
     status status_type NOT NULL,
-    created_at timestamp NOT NULL,
-    merged_at timestamp NOT NULL,
+    created_at timestamp NOT NULL default NOW(),
+    merged_at timestamp default NULL,
     FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

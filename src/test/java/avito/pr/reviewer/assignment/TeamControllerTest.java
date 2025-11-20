@@ -138,6 +138,11 @@ class TeamControllerTest extends SpringBootApplicationTest {
                             "user_id": "u2",
                             "username": "Bob",
                             "is_active": true
+                        },
+                        {
+                            "user_id": "u3",
+                            "username": "Max",
+                            "is_active": true
                         }
                     ]
                 }
