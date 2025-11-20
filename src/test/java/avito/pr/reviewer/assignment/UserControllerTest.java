@@ -19,7 +19,7 @@ class UserControllerTest extends SpringBootApplicationTest {
         JdbcDatabaseDelegate containerDelegate = new JdbcDatabaseDelegate(postgresSqlContainer, "");
         ScriptUtils.executeDatabaseScript(containerDelegate, "",
             """
-            TRUNCATE assignment_reviewers CASCADE;
+            TRUNCATE assigned_reviewers CASCADE;
             TRUNCATE users CASCADE;
             TRUNCATE teams CASCADE;
             TRUNCATE pull_requests CASCADE;
@@ -72,7 +72,7 @@ class UserControllerTest extends SpringBootApplicationTest {
             );
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
-            status().isCreated(),
+            status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
                 {
@@ -126,10 +126,12 @@ class UserControllerTest extends SpringBootApplicationTest {
                 {
                     "user_id": "u2",
                     "pull_requests": [
-                        "pull_request_id": "pr-1000",
-                        "pull_request_name": "Add integration tests",
-                        "author_id": "u1",
-                        "status": "OPEN"
+                        {
+                            "pull_request_id": "pr-1000",
+                            "pull_request_name": "Add integration tests",
+                            "author_id": "u1",
+                            "status": "OPEN"
+                        }
                     ]
                 }
             """)
