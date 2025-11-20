@@ -30,4 +30,8 @@ abstract class SpringBootApplicationTest {
 
 	@Autowired
     protected MockMvc mockMvc;
+
+    protected void setupDb() {
+
+    }
 }
