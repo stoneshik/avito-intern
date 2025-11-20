@@ -5,7 +5,7 @@ import java.util.List;
 
 import avito.pr.reviewer.assignment.bd.entities.pullrequest.PullRequest;
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
-import avito.pr.reviewer.assignment.bd.entities.user.UserWithPullRequest;
+import avito.pr.reviewer.assignment.bd.entities.user.UserIdWithPullRequests;
 import avito.pr.reviewer.assignment.dto.responses.user.UserGetReviewResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActivePullRequestResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActiveResponseDto;
@@ -23,7 +23,7 @@ public class UserMapper {
     }
 
     public static UserGetReviewResponseDto fromUserEntityToUserGetReviewResponseDto(
-        UserWithPullRequest userWithPullRequest
+        UserIdWithPullRequests userWithPullRequest
     ) {
         List<UserSetIsActivePullRequestResponseDto> pullRequests = new ArrayList<>();
         for (PullRequest pullRequest: userWithPullRequest.getPullRequests()) {

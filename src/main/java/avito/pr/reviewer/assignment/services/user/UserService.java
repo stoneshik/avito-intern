@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
-import avito.pr.reviewer.assignment.bd.entities.user.UserWithPullRequest;
+import avito.pr.reviewer.assignment.bd.entities.user.UserIdWithPullRequests;
 import avito.pr.reviewer.assignment.dto.responses.user.UserGetReviewResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActiveResponseDto;
 import avito.pr.reviewer.assignment.repositories.UserRepository;
@@ -26,7 +26,7 @@ public class UserService {
 
     @Transactional
     public UserGetReviewResponseDto getReview(String userId) {
-        UserWithPullRequest userWithPullRequest = userRepository.getReview(userId);
+        UserIdWithPullRequests userWithPullRequest = userRepository.findUserWithPullRequestByUserId(userId);
         return UserMapper.fromUserEntityToUserGetReviewResponseDto(userWithPullRequest);
     }
 }

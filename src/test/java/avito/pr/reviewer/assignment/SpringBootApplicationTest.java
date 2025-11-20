@@ -2,7 +2,6 @@ package avito.pr.reviewer.assignment;
 
 import javax.script.ScriptException;
 
-import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,13 +23,6 @@ abstract class SpringBootApplicationTest {
         new PostgreSQLContainer<>("postgres:18.1")
             .withReuse(false)
             .withDatabaseName(DATABASE_NAME);
-
-    @AfterAll
-    void stopContainers() {
-        if (postgresSqlContainer.isRunning()) {
-            postgresSqlContainer.stop();
-        }
-    }
 
 	@Autowired
     protected MockMvc mockMvc;

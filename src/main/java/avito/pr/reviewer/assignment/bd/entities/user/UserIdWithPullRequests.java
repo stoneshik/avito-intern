@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserWithPullRequest {
+public class UserIdWithPullRequests {
     private String userId;
     @Builder.Default
     private List<PullRequest> pullRequests = new ArrayList<>();

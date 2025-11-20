@@ -1,20 +1,20 @@
 package avito.pr.reviewer.assignment.exceptions;
 
-public class NotFoundResourceError extends RuntimeException {
+public class NotFoundResourceError extends RuntimeException implements MyError {
     private final String messageString;
-    private final TypeError type;
+    private final CodeError code;
 
     public NotFoundResourceError() {
         super();
         this.messageString = "resource not found";
-        this.type = TypeError.NOT_FOUND;
+        this.code = CodeError.NOT_FOUND;
     }
 
     public String getMessageString() {
         return messageString;
     }
 
-    public TypeError getTypeError() {
-        return type;
+    public CodeError getCodeError() {
+        return code;
     }
 }

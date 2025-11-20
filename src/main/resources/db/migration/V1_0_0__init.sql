@@ -4,7 +4,7 @@ CREATE TABLE teams (
 
 CREATE TABLE users (
     user_id varchar(100) PRIMARY KEY,
-    username varchar(100) NOT NULL UNIQUE,
+    username varchar(100) NOT NULL,
     team_name varchar(100) NOT NULL,
     is_active boolean NOT NULL,
     FOREIGN KEY (team_name) REFERENCES teams(team_name) ON DELETE CASCADE
@@ -21,15 +21,19 @@ CREATE TABLE pull_requests (
     FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE assignment_reviewers (
+CREATE TABLE assigned_reviewers (
     user_id varchar(100),
     pull_request_id varchar(100),
     PRIMARY KEY (user_id, pull_request_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (pull_request_id) pull_requests ON DELETE CASCADE
+    FOREIGN KEY (pull_request_id) REFERENCES pull_requests(pull_request_id) ON DELETE CASCADE
 );
 
 -- Для быстрого поиска активных пользователей заданной команды (нужно для запроса создания pull request, запроса переназначения ревьювера)
-CREATE INDEX idx_users_id_active ON USING HASH users(team_name, is_active);
+CREATE INDEX idx_users_id_active ON users (team_name, is_active);
+CREATE INDEX idx_users_active_team ON users USING HASH (team_name) WHERE is_active = true;
 -- Для быстрого поиска назначенных на pull request пользователей (нужно для запроса переназначения ревьювера)
-CREATE INDEX idx_assignment_reviewers_pull_request_id ON USING_HASH assigned_reviewers(pull_request_id);
+CREATE INDEX idx_assigned_reviewers_pull_request_id ON assigned_reviewers USING HASH (pull_request_id);
+
+-- Для быстрого поиска pull request'ов пользователя, где он назначен ревьювером (нужно для запроса получения pull request'ов пользователя, где он назначен ревьювером)
+CREATE INDEX idx_assigned_reviewers_user_id ON assigned_reviewers USING HASH (user_id);

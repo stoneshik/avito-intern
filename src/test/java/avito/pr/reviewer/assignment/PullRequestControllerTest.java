@@ -20,7 +20,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
         JdbcDatabaseDelegate containerDelegate = new JdbcDatabaseDelegate(postgresSqlContainer, "");
         ScriptUtils.executeDatabaseScript(containerDelegate, "",
             """
-            TRUNCATE assignment_reviewers CASCADE;
+            TRUNCATE assigned_reviewers CASCADE;
             TRUNCATE users CASCADE;
             TRUNCATE teams CASCADE;
             TRUNCATE pull_requests CASCADE;
