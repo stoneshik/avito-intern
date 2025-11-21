@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import avito.pr.reviewer.assignment.dto.requests.user.UserSetIsActiveRequestDto;
-import avito.pr.reviewer.assignment.dto.responses.user.UserGetReviewResponseDto;
-import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActiveResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.getreview.UserGetReviewResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.setisactive.UserSetIsActiveResponseDto;
 import avito.pr.reviewer.assignment.services.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 
 @RestController
 @RequestMapping("/users")

@@ -1,8 +1,8 @@
-package avito.pr.reviewer.assignment.bd.entities.pullrequest;
+package avito.pr.reviewer.assignment.bd.entities.pr;
 
 import java.time.LocalDateTime;
 
-import avito.pr.reviewer.assignment.bd.entities.PullRequestStatusType;
+import avito.pr.reviewer.assignment.bd.entities.PrStatusType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class PullRequest {
     private String pullRequestId;
     private String pullRequestName;
     private String authorId;
-    private PullRequestStatusType status;
+    private PrStatusType status;
     private LocalDateTime createdAt;
     private LocalDateTime mergedAt;
 }

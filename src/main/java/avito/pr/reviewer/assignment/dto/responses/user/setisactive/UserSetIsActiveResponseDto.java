@@ -1,4 +1,4 @@
-package avito.pr.reviewer.assignment.dto.responses.user;
+package avito.pr.reviewer.assignment.dto.responses.user.setisactive;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,10 +14,13 @@ import lombok.NoArgsConstructor;
 public class UserSetIsActiveResponseDto {
     @JsonProperty("user_id")
     private String userId;
+
     @JsonProperty("username")
     private String username;
+
     @JsonProperty("team_name")
     private String teamName;
+
     @JsonProperty("is_active")
     private Boolean isActive;
 }

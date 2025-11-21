@@ -1,10 +1,11 @@
-package avito.pr.reviewer.assignment.dto.responses.user;
+package avito.pr.reviewer.assignment.dto.responses.user.getreview;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import avito.pr.reviewer.assignment.dto.responses.user.setisactive.UserSetIsActivePullRequestResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

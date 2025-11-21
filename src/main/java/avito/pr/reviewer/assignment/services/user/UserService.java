@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
 import avito.pr.reviewer.assignment.bd.entities.user.UserIdWithPullRequests;
-import avito.pr.reviewer.assignment.dto.responses.user.UserGetReviewResponseDto;
-import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActiveResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.getreview.UserGetReviewResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.setisactive.UserSetIsActiveResponseDto;
 import avito.pr.reviewer.assignment.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 

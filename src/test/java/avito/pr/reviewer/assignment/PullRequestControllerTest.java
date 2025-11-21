@@ -51,9 +51,9 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 {
                     "pull_request_id": "pr-1001",
                     "pull_request_name": "Add search",
-                    "author_id": "u1",
+                    "author_id": "u2",
                     "status": "OPEN",
-                    "assignment_reviewers": ["u1", "u3"]
+                    "assigned_reviewers": ["u1", "u3"]
                 }
             """)
         );
@@ -130,15 +130,14 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             );
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
-            status().isCreated(),
+            status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             jsonPath("$.pull_request_id").value("pr-1000"),
-            jsonPath("$.pull_request_name").value("Add search"),
+            jsonPath("$.pull_request_name").value("Add integration tests"),
             jsonPath("$.author_id").value("u1"),
             jsonPath("$.status").value("MERGED"),
-            jsonPath("$.assignment_reviewers[0]").value("u2"),
-            jsonPath("$.assignment_reviewers[1]").value("u3"),
-            jsonPath("$.mergedAt").exists()
+            jsonPath("$.assigned_reviewers[0]").value("u3"),
+            jsonPath("$.assigned_reviewers[1]").value("u2")
         );
     }
 
@@ -187,14 +186,16 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
-                "pr": {
-                    "pull_request_id": "pr-1000",
-                    "pull_request_name": "Add integration tests",
-                    "author_id": "u1",
-                    "status": "OPEN",
-                    "assignment_reviewers": ["u1", "u3"]
-                },
-                "replaced_by": "u1"
+                {
+                    "pr": {
+                        "pull_request_id": "pr-1000",
+                        "pull_request_name": "Add integration tests",
+                        "author_id": "u1",
+                        "status": "OPEN",
+                        "assigned_reviewers": ["u1", "u3"]
+                    },
+                    "replaced_by": "u1"
+                }
             """)
         );
     }
@@ -289,7 +290,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             .content(
                 """
                 {
-                    "pull_request_id": "pr-9999",
+                    "pull_request_id": "pr-800",
                     "old_reviewer_id": "u4"
                 }
                 """

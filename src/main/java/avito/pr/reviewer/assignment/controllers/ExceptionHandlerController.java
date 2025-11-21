@@ -8,7 +8,11 @@ import org.springframework.web.client.HttpServerErrorException.InternalServerErr
 
 import avito.pr.reviewer.assignment.dto.responses.ErrorResponseDto;
 import avito.pr.reviewer.assignment.exceptions.CodeError;
+import avito.pr.reviewer.assignment.exceptions.NoCandidateError;
+import avito.pr.reviewer.assignment.exceptions.NotAssignedError;
 import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
+import avito.pr.reviewer.assignment.exceptions.PrExistsError;
+import avito.pr.reviewer.assignment.exceptions.PrMergedError;
 import avito.pr.reviewer.assignment.exceptions.TeamExistsError;
 
 @RestControllerAdvice
@@ -25,6 +29,42 @@ public class ExceptionHandlerController {
     @ExceptionHandler(TeamExistsError.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponseDto handleException(TeamExistsError e) {
+        return ErrorResponseDto.builder()
+            .message(e.getMessageString())
+            .code(e.getCodeError())
+            .build();
+    }
+
+    @ExceptionHandler(PrExistsError.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ErrorResponseDto handleException(PrExistsError e) {
+        return ErrorResponseDto.builder()
+            .message(e.getMessageString())
+            .code(e.getCodeError())
+            .build();
+    }
+
+    @ExceptionHandler(PrMergedError.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ErrorResponseDto handleException(PrMergedError e) {
+        return ErrorResponseDto.builder()
+            .message(e.getMessageString())
+            .code(e.getCodeError())
+            .build();
+    }
+
+    @ExceptionHandler(NotAssignedError.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ErrorResponseDto handleException(NotAssignedError e) {
+        return ErrorResponseDto.builder()
+            .message(e.getMessageString())
+            .code(e.getCodeError())
+            .build();
+    }
+
+    @ExceptionHandler(NoCandidateError.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ErrorResponseDto handleException(NoCandidateError e) {
         return ErrorResponseDto.builder()
             .message(e.getMessageString())
             .code(e.getCodeError())

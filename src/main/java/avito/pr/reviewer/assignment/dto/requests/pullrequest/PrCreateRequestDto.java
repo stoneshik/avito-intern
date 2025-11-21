@@ -1,8 +1,8 @@
-package avito.pr.reviewer.assignment.dto.responses.user;
+package avito.pr.reviewer.assignment.dto.requests.pullrequest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import avito.pr.reviewer.assignment.bd.entities.PullRequestStatusType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +12,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSetIsActivePullRequestResponseDto {
+public class PrCreateRequestDto {
+    @NotBlank
     @JsonProperty("pull_request_id")
     private String pullRequestId;
+
+    @NotBlank
     @JsonProperty("pull_request_name")
     private String pullRequestName;
+
+    @NotBlank
     @JsonProperty("author_id")
     private String authorId;
-    @JsonProperty("status")
-    private PullRequestStatusType status;
 }
