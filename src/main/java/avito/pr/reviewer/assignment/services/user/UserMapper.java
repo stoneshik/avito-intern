@@ -6,9 +6,9 @@ import java.util.List;
 import avito.pr.reviewer.assignment.bd.entities.pullrequest.PullRequest;
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
 import avito.pr.reviewer.assignment.bd.entities.user.UserIdWithPullRequests;
-import avito.pr.reviewer.assignment.dto.responses.user.UserGetReviewResponseDto;
-import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActivePullRequestResponseDto;
-import avito.pr.reviewer.assignment.dto.responses.user.UserSetIsActiveResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.getreview.UserGetReviewResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.setisactive.UserSetIsActivePullRequestResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.user.setisactive.UserSetIsActiveResponseDto;
 
 public class UserMapper {
     private UserMapper() {}

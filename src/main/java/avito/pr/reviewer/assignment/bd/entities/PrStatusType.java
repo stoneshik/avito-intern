@@ -1,6 +1,6 @@
 package avito.pr.reviewer.assignment.bd.entities;
 
-public enum PullRequestStatusType {
+public enum PrStatusType {
     OPEN,
     MERGED;
 }

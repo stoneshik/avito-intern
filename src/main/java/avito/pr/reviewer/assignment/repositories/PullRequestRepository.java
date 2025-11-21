@@ -7,13 +7,13 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import avito.pr.reviewer.assignment.bd.entities.PullRequestStatusType;
+import avito.pr.reviewer.assignment.bd.entities.PrStatusType;
 import avito.pr.reviewer.assignment.bd.entities.pullrequest.PullRequest;
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class PullRepository {
+public class PullRequestRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public List<PullRequest> getPullRequestsByAuthorId(String userId) {
@@ -38,7 +38,7 @@ public class PullRepository {
                     .pullRequestId(rs.getString("pull_request_id"))
                     .pullRequestName(rs.getString("pull_request_name"))
                     .authorId(rs.getString("author_id"))
-                    .status(PullRequestStatusType.valueOf(rs.getString("status")))
+                    .status(PrStatusType.valueOf(rs.getString("status")))
                     .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
                     .mergedAt((mergedAt == null)? null : mergedAt.toLocalDateTime())
                     .build();
