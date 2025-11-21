@@ -186,14 +186,16 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
-                "pr": {
-                    "pull_request_id": "pr-1000",
-                    "pull_request_name": "Add integration tests",
-                    "author_id": "u1",
-                    "status": "OPEN",
-                    "assigned_reviewers": ["u1", "u3"]
-                },
-                "replaced_by": "u1"
+                {
+                    "pr": {
+                        "pull_request_id": "pr-1000",
+                        "pull_request_name": "Add integration tests",
+                        "author_id": "u1",
+                        "status": "OPEN",
+                        "assigned_reviewers": ["u1", "u3"]
+                    },
+                    "replaced_by": "u1"
+                }
             """)
         );
     }
@@ -288,7 +290,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             .content(
                 """
                 {
-                    "pull_request_id": "pr-9999",
+                    "pull_request_id": "pr-800",
                     "old_reviewer_id": "u4"
                 }
                 """

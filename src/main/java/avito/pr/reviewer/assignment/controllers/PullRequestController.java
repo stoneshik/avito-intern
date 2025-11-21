@@ -43,11 +43,10 @@ public class PullRequestController {
 
     @PostMapping("/reassign")
     public ResponseEntity<PrReassignResponseDto> reassign(@RequestBody @Valid PrReassignRequestDto dto) {
-        //PrReassignResponseDto responseDto = pullRequestService.reassign(
-        //    dto.getPullRequestId(),
-        //    dto.getOldReviewerId()
-        //);
-        //return ResponseEntity.ok(responseDto);
-        return ResponseEntity.ok(null);
+        PrReassignResponseDto responseDto = pullRequestService.reassign(
+            dto.getPullRequestId(),
+            dto.getOldReviewerId()
+        );
+        return ResponseEntity.ok(responseDto);
     }
 }

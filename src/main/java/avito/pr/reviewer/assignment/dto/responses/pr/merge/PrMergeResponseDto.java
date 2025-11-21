@@ -1,6 +1,5 @@
 package avito.pr.reviewer.assignment.dto.responses.pr.merge;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

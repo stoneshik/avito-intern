@@ -69,7 +69,7 @@ public class PullRequestRepository {
         );
     }
 
-    public PullRequest findPullRequest(String pullRequestId) {
+    public PullRequest findPullRequestById(String pullRequestId) {
         MapSqlParameterSource selectParameterSource = new MapSqlParameterSource();
         selectParameterSource.addValue("pull_request_id", pullRequestId);
         try {
@@ -108,7 +108,9 @@ public class PullRequestRepository {
         updateParameterSource.addValue("pull_request_id", pullRequestId);
         int updated = jdbcTemplate.update(
             """
-            UPDATE pull_requests SET status = 'MERGED'::status_type
+            UPDATE pull_requests
+            SET status = 'MERGED'::status_type,
+                merged_at = NOW()
             WHERE pull_request_id = :pull_request_id;
             """,
             updateParameterSource
@@ -116,7 +118,30 @@ public class PullRequestRepository {
         if (updated == 0) {
             throw new NotFoundResourceError();
         }
-        return findPullRequest(pullRequestId);
+        return findPullRequestById(pullRequestId);
+    }
+
+    public PullRequest reassign(
+        String pullRequestId,
+        String oldReviewerId,
+        String newReviewerId
+    ) {
+        MapSqlParameterSource updateParameterSource = new MapSqlParameterSource();
+        updateParameterSource.addValue("pull_request_id", pullRequestId);
+        updateParameterSource.addValue("old_reviewer_id", oldReviewerId);
+        updateParameterSource.addValue("new_reviewer_id", newReviewerId);
+        int updated = jdbcTemplate.update(
+            """
+            UPDATE assigned_reviewers
+            SET user_id = :new_reviewer_id
+            WHERE pull_request_id = :pull_request_id AND user_id = :old_reviewer_id;
+            """,
+            updateParameterSource
+        );
+        if (updated == 0) {
+            throw new NotFoundResourceError();
+        }
+        return findPullRequestById(pullRequestId);
     }
 
     public List<String> findAssignedReviewersIds(String pullRequestId) {
