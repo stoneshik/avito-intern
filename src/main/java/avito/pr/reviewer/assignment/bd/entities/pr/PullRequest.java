@@ -1,4 +1,4 @@
-package avito.pr.reviewer.assignment.bd.entities.pullrequest;
+package avito.pr.reviewer.assignment.bd.entities.pr;
 
 import java.time.LocalDateTime;
 

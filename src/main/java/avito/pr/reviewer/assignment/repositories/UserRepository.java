@@ -4,12 +4,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import avito.pr.reviewer.assignment.bd.entities.PrStatusType;
-import avito.pr.reviewer.assignment.bd.entities.pullrequest.PullRequest;
+import avito.pr.reviewer.assignment.bd.entities.pr.PullRequest;
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
 import avito.pr.reviewer.assignment.bd.entities.user.UserIdWithPullRequests;
 import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
@@ -39,23 +40,33 @@ public class UserRepository {
         MapSqlParameterSource selectParameterSource = new MapSqlParameterSource();
         selectParameterSource.addValue("user_id", userId);
 
-        return jdbcTemplate.queryForObject(
-            """
-            SELECT
-                user_id,
-                username,
-                team_name,
-                is_active
-            FROM users WHERE user_id = :user_id;
-            """,
-            selectParameterSource,
-            (rs, rowNum) -> UserEntity.builder()
-                .userId(rs.getString("user_id"))
-                .username(rs.getString("username"))
-                .teamName(rs.getString("team_name"))
-                .isActive(rs.getBoolean("is_active"))
-                .build()
-        );
+        return findUserById(userId);
+    }
+
+    public UserEntity findUserById(String userId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("user_id", userId);
+        try {
+            return jdbcTemplate.queryForObject(
+                """
+                SELECT
+                    user_id,
+                    username,
+                    team_name,
+                    is_active
+                FROM users WHERE user_id = :user_id;
+                """,
+                parameterSource,
+                (rs, rowNum) -> UserEntity.builder()
+                    .userId(rs.getString("user_id"))
+                    .username(rs.getString("username"))
+                    .teamName(rs.getString("team_name"))
+                    .isActive(rs.getBoolean("is_active"))
+                    .build()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundResourceError();
+        }
     }
 
     public UserIdWithPullRequests findUserWithPullRequestByUserId(String userId) {

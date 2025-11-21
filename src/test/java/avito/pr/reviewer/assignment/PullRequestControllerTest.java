@@ -51,9 +51,9 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                 {
                     "pull_request_id": "pr-1001",
                     "pull_request_name": "Add search",
-                    "author_id": "u1",
+                    "author_id": "u2",
                     "status": "OPEN",
-                    "assignment_reviewers": ["u1", "u3"]
+                    "assigned_reviewers": ["u1", "u3"]
                 }
             """)
         );
@@ -136,8 +136,8 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             jsonPath("$.pull_request_name").value("Add search"),
             jsonPath("$.author_id").value("u1"),
             jsonPath("$.status").value("MERGED"),
-            jsonPath("$.assignment_reviewers[0]").value("u2"),
-            jsonPath("$.assignment_reviewers[1]").value("u3"),
+            jsonPath("$.assigned_reviewers[0]").value("u2"),
+            jsonPath("$.assigned_reviewers[1]").value("u3"),
             jsonPath("$.mergedAt").exists()
         );
     }
@@ -192,7 +192,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
                     "pull_request_name": "Add integration tests",
                     "author_id": "u1",
                     "status": "OPEN",
-                    "assignment_reviewers": ["u1", "u3"]
+                    "assigned_reviewers": ["u1", "u3"]
                 },
                 "replaced_by": "u1"
             """)

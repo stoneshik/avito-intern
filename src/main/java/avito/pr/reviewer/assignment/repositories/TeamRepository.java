@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import avito.pr.reviewer.assignment.bd.entities.team.Member;
+import avito.pr.reviewer.assignment.bd.entities.team.Team;
 import avito.pr.reviewer.assignment.bd.entities.team.TeamWithMembers;
 import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
 import avito.pr.reviewer.assignment.exceptions.TeamExistsError;
@@ -67,19 +68,26 @@ public class TeamRepository {
         ).length > 0 ? members : Collections.emptyList();
     }
 
-    public TeamWithMembers findTeamWithMembers(String teamName) {
+    public Team findTeamByTeamName(String teamName) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("team_name", teamName);
-        String teamNameFound;
         try {
-            teamNameFound = jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                 "SELECT team_name FROM teams WHERE team_name = :team_name;",
                 parameters,
-                (rs, rowNum) -> rs.getString("team_name")
+                (rs, rowNum) -> Team.builder()
+                    .teamName(rs.getString("team_name"))
+                    .build()
             );
         } catch (EmptyResultDataAccessException e) {
             throw new NotFoundResourceError();
         }
+    }
+
+    public TeamWithMembers findTeamWithMembers(String teamName) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("team_name", teamName);
+        Team team = findTeamByTeamName(teamName);
         List<Member> members = jdbcTemplate.query(
             """
             SELECT
@@ -96,7 +104,33 @@ public class TeamRepository {
                 .build()
         );
         return TeamWithMembers.builder()
-            .teamName(teamNameFound)
+            .teamName(team.getTeamName())
+            .members(members)
+            .build();
+    }
+
+    public TeamWithMembers findTeamWithActiveMembers(String teamName) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("team_name", teamName);
+        Team team = findTeamByTeamName(teamName);
+        List<Member> members = jdbcTemplate.query(
+            """
+            SELECT
+                user_id,
+                username,
+                is_active
+            FROM users
+            WHERE team_name = :team_name AND is_active = true;
+            """,
+            parameters,
+            (rs, rowNum) -> Member.builder()
+                .userId(rs.getString("user_id"))
+                .username(rs.getString("username"))
+                .isActive(rs.getBoolean("is_active"))
+                .build()
+        );
+        return TeamWithMembers.builder()
+            .teamName(team.getTeamName())
             .members(members)
             .build();
     }
