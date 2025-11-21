@@ -1,6 +1,7 @@
 package avito.pr.reviewer.assignment.services.team;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import avito.pr.reviewer.assignment.bd.entities.team.TeamWithMembers;
 import avito.pr.reviewer.assignment.dto.requests.team.TeamAddRequestDto;
@@ -14,13 +15,16 @@ import lombok.RequiredArgsConstructor;
 public class TeamService {
     private final TeamRepository teamRepository;
 
+    @Transactional
     public TeamAddResponseDto add(TeamAddRequestDto requestDto) {
-        TeamWithMembers teamWithMembers = teamRepository.add(requestDto);
-        return TeamMapper.fromTeamToTeamAddResponseDto(teamWithMembers);
+        TeamWithMembers teamWithMembers = TeamMapper.fromTeamAddResponseDtoToTeam(requestDto);
+        TeamWithMembers savedTeamWithMembers = teamRepository.saveTeamWithUsers(teamWithMembers);
+        return TeamMapper.fromTeamToTeamAddResponseDto(savedTeamWithMembers);
     }
 
+    @Transactional
     public TeamGetResponseDto get(String teamName) {
-        TeamWithMembers teamWithMembers = teamRepository.get(teamName);
+        TeamWithMembers teamWithMembers = teamRepository.findTeamWithMembers(teamName);
         return TeamMapper.fromTeamToTeamGetResponseDto(teamWithMembers);
     }
 }
