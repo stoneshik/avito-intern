@@ -7,14 +7,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import avito.pr.reviewer.assignment.dto.responses.ErrorResponseDto;
-import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
 import avito.pr.reviewer.assignment.exceptions.CodeError;
+import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
+import avito.pr.reviewer.assignment.exceptions.TeamExistsError;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
     @ExceptionHandler(NotFoundResourceError.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponseDto handleException(NotFoundResourceError e) {
+        return ErrorResponseDto.builder()
+            .message(e.getMessageString())
+            .code(e.getCodeError())
+            .build();
+    }
+
+    @ExceptionHandler(TeamExistsError.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleException(TeamExistsError e) {
         return ErrorResponseDto.builder()
             .message(e.getMessageString())
             .code(e.getCodeError())
