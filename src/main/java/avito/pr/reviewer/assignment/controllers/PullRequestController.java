@@ -13,7 +13,7 @@ import avito.pr.reviewer.assignment.dto.requests.pullrequest.PrReassignRequestDt
 import avito.pr.reviewer.assignment.dto.responses.pr.create.PrCreateResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.pr.merge.PrMergeResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.pr.reassign.PrReassignResponseDto;
-import avito.pr.reviewer.assignment.services.pr.PullRequestService;
+import avito.pr.reviewer.assignment.services.pr.PrService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/pullRequest")
 @RequiredArgsConstructor
 public class PullRequestController {
-    private final PullRequestService pullRequestService;
+    private final PrService pullRequestService;
 
     @PostMapping("/create")
     public ResponseEntity<PrCreateResponseDto> create(@RequestBody @Valid PrCreateRequestDto dto) {
@@ -37,9 +37,8 @@ public class PullRequestController {
 
     @PostMapping("/merge")
     public ResponseEntity<PrMergeResponseDto> merge(@RequestBody @Valid PrMergeRequestDto dto) {
-    //    PrMergeResponseDto responseDto = pullRequestService.merge(dto.getPullRequestId());
-    //    return ResponseEntity.ok(responseDto);
-        return ResponseEntity.ok(null);
+        PrMergeResponseDto responseDto = pullRequestService.merge(dto.getPullRequestId());
+        return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/reassign")

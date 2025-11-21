@@ -32,14 +32,9 @@ public class UserRepository {
             """,
             updateParameterSource
         );
-
         if (updated == 0) {
             throw new NotFoundResourceError();
         }
-
-        MapSqlParameterSource selectParameterSource = new MapSqlParameterSource();
-        selectParameterSource.addValue("user_id", userId);
-
         return findUserById(userId);
     }
 

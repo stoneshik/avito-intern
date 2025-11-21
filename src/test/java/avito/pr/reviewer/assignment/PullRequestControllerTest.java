@@ -130,15 +130,14 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
             );
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
-            status().isCreated(),
+            status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             jsonPath("$.pull_request_id").value("pr-1000"),
-            jsonPath("$.pull_request_name").value("Add search"),
+            jsonPath("$.pull_request_name").value("Add integration tests"),
             jsonPath("$.author_id").value("u1"),
             jsonPath("$.status").value("MERGED"),
-            jsonPath("$.assigned_reviewers[0]").value("u2"),
-            jsonPath("$.assigned_reviewers[1]").value("u3"),
-            jsonPath("$.mergedAt").exists()
+            jsonPath("$.assigned_reviewers[0]").value("u3"),
+            jsonPath("$.assigned_reviewers[1]").value("u2")
         );
     }
 

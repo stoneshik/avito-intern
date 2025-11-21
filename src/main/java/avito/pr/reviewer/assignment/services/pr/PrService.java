@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import avito.pr.reviewer.assignment.bd.entities.PrStatusType;
+import avito.pr.reviewer.assignment.bd.entities.pr.PullRequest;
+import avito.pr.reviewer.assignment.bd.entities.pr.PullRequestWithAssignedReviewers;
 import avito.pr.reviewer.assignment.bd.entities.team.Member;
 import avito.pr.reviewer.assignment.bd.entities.team.TeamWithMembers;
 import avito.pr.reviewer.assignment.bd.entities.user.UserEntity;
 import avito.pr.reviewer.assignment.dto.responses.pr.create.PrCreateResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.pr.merge.PrMergeResponseDto;
 import avito.pr.reviewer.assignment.repositories.PullRequestRepository;
 import avito.pr.reviewer.assignment.repositories.TeamRepository;
 import avito.pr.reviewer.assignment.repositories.UserRepository;
@@ -19,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PullRequestService {
+public class PrService {
     private static final int NUMBER_OF_ASSIGNED_REVIEWERS = 2;
     private final PullRequestRepository pullRequestRepository;
     private final TeamRepository teamRepository;
@@ -53,7 +56,22 @@ public class PullRequestService {
             .build();
     }
 
-    public List<Member> getListAssignedUsersFromActiveTeamMembers(List<Member> activeMembers, String authorId) {
+    @Transactional
+    public PrMergeResponseDto merge(String pullRequestId) {
+        PullRequest pullRequest = pullRequestRepository.merge(pullRequestId);
+        List<String> assignedReviewersIds = pullRequestRepository.findAssignedReviewersIds(
+            pullRequest.getPullRequestId()
+        );
+        return PrMergeResponseDto.builder()
+            .pullRequestId(pullRequest.getPullRequestId())
+            .pullRequestName(pullRequest.getPullRequestName())
+            .authorId(pullRequest.getAuthorId())
+            .status(pullRequest.getStatus())
+            .assignedReviewers(assignedReviewersIds)
+            .build();
+    }
+
+    private List<Member> getListAssignedUsersFromActiveTeamMembers(List<Member> activeMembers, String authorId) {
         List<Member> candidatesForAssignment = new ArrayList<>();
         for (Member member: activeMembers) {
             if (!member.getUserId().equals(authorId)) {

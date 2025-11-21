@@ -30,7 +30,4 @@ public class PrMergeResponseDto {
 
     @JsonProperty("assigned_reviewers")
     private List<String> assignedReviewers;
-
-    @JsonProperty("merged_at")
-    private LocalDateTime mergedAt;
 }

@@ -3,12 +3,14 @@ package avito.pr.reviewer.assignment.repositories;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import avito.pr.reviewer.assignment.bd.entities.PrStatusType;
 import avito.pr.reviewer.assignment.bd.entities.pr.PullRequest;
+import avito.pr.reviewer.assignment.exceptions.NotFoundResourceError;
 import avito.pr.reviewer.assignment.exceptions.PrExistsError;
 import lombok.RequiredArgsConstructor;
 
@@ -64,6 +66,71 @@ public class PullRequestRepository {
             VALUES (:user_id, :pull_request_id);
             """,
             batchParams.toArray(new MapSqlParameterSource[0])
+        );
+    }
+
+    public PullRequest findPullRequest(String pullRequestId) {
+        MapSqlParameterSource selectParameterSource = new MapSqlParameterSource();
+        selectParameterSource.addValue("pull_request_id", pullRequestId);
+        try {
+            return jdbcTemplate.queryForObject(
+                """
+                SELECT
+                    pull_request_id,
+                    pull_request_name,
+                    author_id,
+                    status,
+                    created_at,
+                    merged_at
+                FROM pull_requests
+                WHERE pull_request_id = :pull_request_id;
+                """,
+                selectParameterSource,
+                (rs, rowNum) -> {
+                    Timestamp mergedAt = rs.getTimestamp("merged_at");
+                    return PullRequest.builder()
+                        .pullRequestId(rs.getString("pull_request_id"))
+                        .pullRequestName(rs.getString("pull_request_name"))
+                        .authorId(rs.getString("author_id"))
+                        .status(PrStatusType.valueOf(rs.getString("status")))
+                        .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                        .mergedAt((mergedAt == null)? null : mergedAt.toLocalDateTime())
+                        .build();
+                }
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundResourceError();
+        }
+    }
+
+    public PullRequest merge(String pullRequestId) {
+        MapSqlParameterSource updateParameterSource = new MapSqlParameterSource();
+        updateParameterSource.addValue("pull_request_id", pullRequestId);
+        int updated = jdbcTemplate.update(
+            """
+            UPDATE pull_requests SET status = 'MERGED'::status_type
+            WHERE pull_request_id = :pull_request_id;
+            """,
+            updateParameterSource
+        );
+        if (updated == 0) {
+            throw new NotFoundResourceError();
+        }
+        return findPullRequest(pullRequestId);
+    }
+
+    public List<String> findAssignedReviewersIds(String pullRequestId) {
+        MapSqlParameterSource selectParameterSource = new MapSqlParameterSource();
+        selectParameterSource.addValue("pull_request_id", pullRequestId);
+        return jdbcTemplate.query(
+            """
+            SELECT
+                user_id
+            FROM assigned_reviewers
+            WHERE pull_request_id = :pull_request_id;
+            """,
+            selectParameterSource,
+            (rs, rowNum) -> rs.getString("user_id")
         );
     }
 
