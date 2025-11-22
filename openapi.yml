@@ -3,6 +3,9 @@ info:
   title: PR Reviewer Assignment Service (Test Task, Fall 2025)
   version: "1.0.0"
 
+servers:
+  - url: 'http://localhost:8080/api/v1'
+
 tags:
   - name: Teams
   - name: Users
@@ -11,16 +14,16 @@ tags:
 
 components:
   parameters:
-    TeamNameQuery:
+    TeamNamePath:
       name: team_name
-      in: query
+      in: path
       required: true
       schema:
         type: string
       description: Уникальное имя команды
-    UserIdQuery:
+    UserIdPath:
       name: user_id
-      in: query
+      in: path
       required: true
       schema:
         type: string
@@ -122,7 +125,7 @@ components:
           enum: [OPEN, MERGED]
 
 paths:
-  /team/add:
+  /teams/add:
     post:
       tags: [Teams]
       summary: Создать команду с участниками (создаёт/обновляет пользователей)
@@ -171,12 +174,12 @@ paths:
                   code: TEAM_EXISTS
                   message: team_name already exists
 
-  /team/get:
+  /teams/{team_name}:
     get:
       tags: [Teams]
       summary: Получить команду с участниками
       parameters:
-        - $ref: '#/components/parameters/TeamNameQuery'
+        - $ref: '#/components/parameters/TeamNamePath'
       responses:
         '200':
           description: Объект команды
@@ -199,7 +202,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/ErrorResponse' }
 
-  /users/setIsActive:
+  /users/set-is-active:
     post:
       tags: [Users]
       summary: Установить флаг активности пользователя
@@ -240,7 +243,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/ErrorResponse' }
 
-  /pullRequest/create:
+  /pull-requests:
     post:
       tags: [PullRequests]
       summary: Создать PR и автоматически назначить до 2 ревьюверов из команды автора
@@ -289,7 +292,7 @@ paths:
               example:
                 error: { code: PR_EXISTS, message: PR id already exists }
 
-  /pullRequest/merge:
+  /pull-requests/merge:
     post:
       tags: [PullRequests]
       summary: Пометить PR как MERGED (идемпотентная операция)
@@ -328,7 +331,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/ErrorResponse' }
 
-  /pullRequest/reassign:
+  /pull-requests/reassign:
     post:
       tags: [PullRequests]
       summary: Переназначить конкретного ревьювера на другого из его команды
@@ -391,12 +394,12 @@ paths:
                   value:
                     error: { code: NO_CANDIDATE, message: no active replacement candidate in team }
 
-  /users/getReview:
+  /users/{user_id}/get-review:
     get:
       tags: [Users]
       summary: Получить PR'ы, где пользователь назначен ревьювером
       parameters:
-        - $ref: '#/components/parameters/UserIdQuery'
+        - $ref: '#/components/parameters/UserIdPath'
       responses:
         '200':
           description: Список PR'ов пользователя

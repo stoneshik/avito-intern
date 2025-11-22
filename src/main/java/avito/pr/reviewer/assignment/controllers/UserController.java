@@ -2,10 +2,10 @@ package avito.pr.reviewer.assignment.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import avito.pr.reviewer.assignment.dto.requests.user.UserSetIsActiveRequestDto;
@@ -16,12 +16,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/setIsActive")
+    @PostMapping("/set-is-active")
     public ResponseEntity<UserSetIsActiveResponseDto> setIsActive(@RequestBody @Valid UserSetIsActiveRequestDto dto) {
         UserSetIsActiveResponseDto createdResponseDto = userService.setIsActive(
             dto.getUserId(),
@@ -30,8 +30,8 @@ public class UserController {
         return ResponseEntity.ok(createdResponseDto);
     }
 
-    @GetMapping("/getReview")
-    public ResponseEntity<UserGetReviewResponseDto> getReview(@RequestParam("user_id") String userId) {
+    @GetMapping("/{user_id}/get-review")
+    public ResponseEntity<UserGetReviewResponseDto> getReview(@PathVariable("user_id") String userId) {
         UserGetReviewResponseDto responseDto = userService.getReview(userId);
         return ResponseEntity.ok(responseDto);
     }

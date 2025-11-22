@@ -31,7 +31,7 @@ class TeamControllerTest extends SpringBootApplicationTest {
     void createTeam_ReturnsResponseTeamWithStatusCreated() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/team/add")
+            .post(INITIAL_PATH + "/teams")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -80,7 +80,7 @@ class TeamControllerTest extends SpringBootApplicationTest {
     void createTeam_ReturnsResponseErrorWithStatusBadRequest() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/team/add")
+            .post(INITIAL_PATH + "/teams")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -117,9 +117,9 @@ class TeamControllerTest extends SpringBootApplicationTest {
     @Test
     void getTeam_ReturnsResponseTeamWithStatusOk() throws Exception {
         setupDb();
+        final String teamName = "backend";
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/team/get")
-            .param("team_name", "backend");
+            .get(INITIAL_PATH + "/teams/" + teamName);
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
             status().isOk(),
@@ -152,9 +152,9 @@ class TeamControllerTest extends SpringBootApplicationTest {
     @Test
     void getTeam_ReturnsResponseWithStatusNotFound() throws Exception {
         setupDb();
+        final String teamName = "payments";
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/team/get")
-            .param("team_name", "payments");
+            .get(INITIAL_PATH + "/teams/" + teamName);
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
             status().isNotFound(),

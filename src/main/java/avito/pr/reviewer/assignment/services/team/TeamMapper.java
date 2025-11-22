@@ -5,36 +5,36 @@ import java.util.List;
 
 import avito.pr.reviewer.assignment.bd.entities.team.Member;
 import avito.pr.reviewer.assignment.bd.entities.team.TeamWithMembers;
-import avito.pr.reviewer.assignment.dto.requests.team.MemberInTeamAddRequestDto;
-import avito.pr.reviewer.assignment.dto.requests.team.TeamAddRequestDto;
-import avito.pr.reviewer.assignment.dto.responses.team.add.MemberInTeamAddResponseDto;
-import avito.pr.reviewer.assignment.dto.responses.team.add.TeamAddResponseDto;
+import avito.pr.reviewer.assignment.dto.requests.team.MemberInTeamCreateRequestDto;
+import avito.pr.reviewer.assignment.dto.requests.team.TeamCreateRequestDto;
+import avito.pr.reviewer.assignment.dto.responses.team.create.MemberInTeamCreateResponseDto;
+import avito.pr.reviewer.assignment.dto.responses.team.create.TeamCreateResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.team.get.MemberInTeamGetResponseDto;
 import avito.pr.reviewer.assignment.dto.responses.team.get.TeamGetResponseDto;
 
 public class TeamMapper {
     private TeamMapper() {}
 
-    public static TeamAddResponseDto fromTeamToTeamAddResponseDto(TeamWithMembers teamWithMembers) {
-        List<MemberInTeamAddResponseDto> members = new ArrayList<>();
+    public static TeamCreateResponseDto fromTeamToTeamCreateResponseDto(TeamWithMembers teamWithMembers) {
+        List<MemberInTeamCreateResponseDto> members = new ArrayList<>();
         for (Member member: teamWithMembers.getMembers()) {
             members.add(
-                MemberInTeamAddResponseDto.builder()
+                MemberInTeamCreateResponseDto.builder()
                     .userId(member.getUserId())
                     .username(member.getUsername())
                     .isActive(member.getIsActive())
                     .build()
             );
         }
-        return TeamAddResponseDto.builder()
+        return TeamCreateResponseDto.builder()
             .teamName(teamWithMembers.getTeamName())
             .members(members)
             .build();
     }
 
-    public static TeamWithMembers fromTeamAddResponseDtoToTeam(TeamAddRequestDto teamAddRequestDto) {
+    public static TeamWithMembers fromTeamCreateResponseDtoToTeam(TeamCreateRequestDto teamAddRequestDto) {
         List<Member> members = new ArrayList<>();
-        for (MemberInTeamAddRequestDto member: teamAddRequestDto.getMembers()) {
+        for (MemberInTeamCreateRequestDto member: teamAddRequestDto.getMembers()) {
             members.add(
                 Member.builder()
                     .userId(member.getUserId())

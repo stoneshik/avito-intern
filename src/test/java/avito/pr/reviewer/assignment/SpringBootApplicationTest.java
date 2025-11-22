@@ -16,6 +16,7 @@ import org.testcontainers.junit.jupiter.Container;
 @AutoConfigureMockMvc
 abstract class SpringBootApplicationTest {
     private static final String DATABASE_NAME = "pr_reviewer_assignment_service";
+    protected static final String INITIAL_PATH = "/api/v1";
 
     @Container
     @ServiceConnection

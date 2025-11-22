@@ -18,12 +18,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/pullRequest")
+@RequestMapping("/api/v1/pull-requests")
 @RequiredArgsConstructor
 public class PullRequestController {
     private final PrService pullRequestService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<PrCreateResponseDto> create(@RequestBody @Valid PrCreateRequestDto dto) {
         PrCreateResponseDto createdResponseDto = pullRequestService.create(
             dto.getPullRequestId(),

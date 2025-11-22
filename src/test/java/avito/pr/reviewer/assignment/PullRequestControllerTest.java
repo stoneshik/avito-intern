@@ -32,7 +32,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void createPullRequest_ReturnsResponsePullRequestWithStatusCreated() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/create")
+            .post(INITIAL_PATH + "/pull-requests")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -63,7 +63,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void createPullRequest_ReturnsResponseErrorWithStatusNotFound() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/create")
+            .post(INITIAL_PATH + "/pull-requests")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -91,7 +91,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void createPullRequest_ReturnsResponseErrorWithStatusConflict() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/create")
+            .post(INITIAL_PATH + "/pull-requests")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -119,7 +119,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void mergeRequest_ReturnsResponsePullRequestWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/merge")
+            .post(INITIAL_PATH + "/pull-requests/merge")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -145,7 +145,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void mergeRequest_ReturnsResponseErrorWithStatusNotFound() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/merge")
+            .post(INITIAL_PATH + "/pull-requests/merge")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -171,7 +171,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void reassignRequest_ReturnsResponsePullRequestWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/reassign")
+            .post(INITIAL_PATH + "/pull-requests/reassign")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -204,7 +204,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void reassignRequest_ReturnsResponseErrorWithStatusNotFound() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/reassign")
+            .post(INITIAL_PATH + "/pull-requests/reassign")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -231,7 +231,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void reassignRequest_ReturnsResponseErrorPrMergedWithStatusConflict() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/reassign")
+            .post(INITIAL_PATH + "/pull-requests/reassign")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -258,7 +258,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void reassignRequest_ReturnsResponseErrorNotAssignedWithStatusConflict() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/reassign")
+            .post(INITIAL_PATH + "/pull-requests/reassign")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -285,7 +285,7 @@ class PullRequestControllerTest extends SpringBootApplicationTest{
     void reassignRequest_ReturnsResponseErrorNoCandidateWithStatusConflict() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/pullRequest/reassign")
+            .post(INITIAL_PATH + "/pull-requests/reassign")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """

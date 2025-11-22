@@ -1,7 +1,5 @@
 package avito.pr.reviewer.assignment.dto.requests.team;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -15,12 +13,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamAddRequestDto {
+public class MemberInTeamCreateRequestDto {
     @NotBlank
-    @JsonProperty("team_name")
-    private String teamName;
+    @JsonProperty("user_id")
+    private String userId;
+
+    @NotBlank
+    @JsonProperty("username")
+    private String username;
 
     @NotNull
-    @JsonProperty("members")
-    private List<MemberInTeamAddRequestDto> members;
+    @JsonProperty("is_active")
+    private Boolean isActive;
 }

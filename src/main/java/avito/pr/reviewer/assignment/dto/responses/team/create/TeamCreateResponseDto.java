@@ -1,4 +1,4 @@
-package avito.pr.reviewer.assignment.dto.responses.team.add;
+package avito.pr.reviewer.assignment.dto.responses.team.create;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamAddResponseDto {
+public class TeamCreateResponseDto {
     @JsonProperty("team_name")
     private String teamName;
 
     @Builder.Default
     @JsonProperty("members")
-    private List<MemberInTeamAddResponseDto> members = new ArrayList<>();
+    private List<MemberInTeamCreateResponseDto> members = new ArrayList<>();
 }

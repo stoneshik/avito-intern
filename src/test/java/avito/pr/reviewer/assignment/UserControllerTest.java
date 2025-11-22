@@ -31,7 +31,7 @@ class UserControllerTest extends SpringBootApplicationTest {
     void setIsActive_ReturnsResponseUserWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/users/setIsActive")
+            .post(INITIAL_PATH + "/users/set-is-active")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -60,7 +60,7 @@ class UserControllerTest extends SpringBootApplicationTest {
     void setIsActiveCheckIdempotency_ReturnsResponseUserWithStatusOk() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/users/setIsActive")
+            .post(INITIAL_PATH + "/users/set-is-active")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -89,7 +89,7 @@ class UserControllerTest extends SpringBootApplicationTest {
     void setIsActive_ReturnsResponseErrorWithStatusNotFound() throws Exception {
         setupDb();
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .post("/users/setIsActive")
+            .post(INITIAL_PATH + "/users/set-is-active")
             .contentType(MediaType.APPLICATION_JSON)
             .content(
                 """
@@ -115,9 +115,9 @@ class UserControllerTest extends SpringBootApplicationTest {
     @Test
     void getReview_ReturnsResponseListPullRequestWithStatusOk() throws Exception {
         setupDb();
+        final String userId = "u2";
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/users/getReview")
-            .param("user_id", "u2");
+            .get(INITIAL_PATH + "/users/" + userId + "/get-review");
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
             status().isOk(),
@@ -141,9 +141,9 @@ class UserControllerTest extends SpringBootApplicationTest {
     @Test
     void getReview_ReturnsResponseEmptyListPullRequestWithStatusOk() throws Exception {
         setupDb();
+        final String userId = "u6";
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/users/getReview")
-            .param("user_id", "u6");
+            .get(INITIAL_PATH + "/users/" + userId + "/get-review");
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
             status().isOk(),
