@@ -59,7 +59,7 @@ services:
       apk add --no-cache openjdk21 maven curl &&
       dockerd &
       sleep 20 &&
-      mvn clean test
+      mvn clean test -B --no-transfer-progress
       "
     networks:
       - app-network
