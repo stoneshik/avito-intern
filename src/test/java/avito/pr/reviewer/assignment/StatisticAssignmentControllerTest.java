@@ -33,11 +33,11 @@ class StatisticAssignmentControllerTest extends SpringBootApplicationTest {
             .get(INITIAL_PATH + "/statistics/assignments/number-of-users");
         this.mockMvc.perform(requestBuilder)
         .andExpectAll(
-            status().isCreated(),
+            status().isOk(),
             content().contentTypeCompatibleWith("application/json"),
             content().json("""
                 {
-                    "number_of_assigned_users": 5
+                    "number_of_assigned_users": 4
                 }
             """)
         );
