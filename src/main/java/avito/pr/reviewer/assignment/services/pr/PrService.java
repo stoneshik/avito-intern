@@ -2,7 +2,9 @@ package avito.pr.reviewer.assignment.services.pr;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,7 +90,8 @@ public class PrService {
         List<String> assignedReviewersIds = pullRequestRepository.findAssignedReviewersIds(
             pullRequestId
         );
-        if (!assignedReviewersIds.contains(oldReviewerId)) {
+        Set<String> assignedReviewersIdsSet = new HashSet<>(assignedReviewersIds);
+        if (!assignedReviewersIdsSet.contains(oldReviewerId)) {
             throw new NotAssignedError();
         }
         TeamWithMembers teamWithActiveMembers = teamRepository.findTeamWithActiveMembers(
@@ -96,9 +99,11 @@ public class PrService {
         );
         List<Member> candidatesForReassign = new ArrayList<>();
         for (Member member: teamWithActiveMembers.getMembers()) {
-            if (!member.getUserId().equals(oldReviewerId)) {
-                candidatesForReassign.add(member);
+            if (member.getUserId().equals(oldReviewerId) ||
+                assignedReviewersIdsSet.contains(member.getUserId())) {
+                continue;
             }
+            candidatesForReassign.add(member);
         }
         if (candidatesForReassign.isEmpty()) {
             throw new NoCandidateError();

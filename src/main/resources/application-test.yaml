@@ -1,5 +1,5 @@
 server:
-    port: "${PR_REVIEWER_ASSIGNMENT_SERVICE_PORT}"
+    port: "${SERVER_PORT}"
 
 spring:
     main:

@@ -1,11 +1,11 @@
 server:
-    port: "${PR_REVIEWER_ASSIGNMENT_SERVICE_PORT}"
+    port: "${SERVER_PORT}"
 
 spring:
     main:
         banner-mode: "off"
     datasource:
-        url: "${PR_REVIEWER_ASSIGNMENT_SERVICE_BD_URL}"
-        username: "${PR_REVIEWER_ASSIGNMENT_SERVICE_BD_USERNAME}"
-        password: "${PR_REVIEWER_ASSIGNMENT_SERVICE_BD_PASSWORD}"
+        url: "${DB_URL}"
+        username: "${DB_USERNAME}"
+        password: "${DB_PASSWORD}"
         driver-class-name: "org.postgresql.Driver"
